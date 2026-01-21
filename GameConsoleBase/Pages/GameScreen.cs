@@ -18,6 +18,11 @@ namespace GameConsoleBase.Pages
 
 		public override void Show()
 		{
+			Console.Clear();
+			PrintHeader();
+			WriteInfo($"Get ready to play {game.Name}!");
+            Console.WriteLine();//עוד עיצובים שהוספנו 
+			Console.Clear();
 			base.Show();
 			Console.ForegroundColor = ConsoleColor.DarkMagenta;
 			HorizontalCenter("Press any key to start Playing");

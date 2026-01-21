@@ -11,9 +11,9 @@ namespace GameConsoleBase.Pages
 	{
 		public MainMenuScreen() : base("Main Menu")
 		{
+			// AddMenuItem("Update", new UpdatePasswordScreen());
 			AddMenuItem("Login", new LoginScreen());
 			AddMenuItem("Register", new RegisterScreen());
-			
 		}
 	}
 }

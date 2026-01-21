@@ -35,6 +35,29 @@ namespace GameConsoleBase.DB
             return true;
         }
 
+        public static bool UpdateUser(User user)
+        {
+
+            // users.
+            // בדיקה אם המשתמש שהתקבל הוא null
+            if (user == null) return false;
+
+
+            // בדיקה אם שם המשתמש כבר קיים ברשימה
+            if (users.Any(u => u.UserName == user.UserName))
+            {
+                var index = users.FindIndex(u => u.UserName == user.UserName);
+
+                users[index] = user;
+                return true;
+
+            }
+            //change user from users
+            return false;
+        }
+
+        
+
         // שיטה להתחברות משתמש
         // userName - שם המשתמש
         // password - הסיסמה

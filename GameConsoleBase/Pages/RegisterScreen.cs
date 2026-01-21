@@ -21,16 +21,17 @@ namespace GameConsoleBase.Pages
         // שיטה שמציגה את מסך ההרשמה
         public override void Show()
         {
-            // מציג את הכותרת של המסך
-            base.Show();
+            
 
             // משתנים לשמירת פרטי המשתמש
             string name;
             string userName;
             string password;
 
+            WriteInfo("Create a new acaount");
+
             // בקשה מהמשתמש להזין את שמו
-            Console.WriteLine("Enter Name");
+            WritePrompt("Enter Name");
             name = Console.ReadLine();
 
             // משתנה שמסמן אם ההרשמה הצליחה
@@ -39,27 +40,32 @@ namespace GameConsoleBase.Pages
             // לולאה שממשיכה עד שההרשמה מצליחה
             while (!success)
             {
+                System.Console.WriteLine("");
                 // בקשה מהמשתמש להזין שם משתמש
-                Console.WriteLine("enter desired user name  ");
+                WritePrompt("enter desired user name  ");
                 userName = Console.ReadLine();
-
-                // בקשה מהמשתמש להזין סיסמה
-                Console.WriteLine("Enter Password");
-                password = Console.ReadLine();
-
-                // בדיקה אם הסיסמה תקינה
-                while (!IsValidPassword(password))
-                {
-                    Console.WriteLine("Enter new Password");
-                    password = Console.ReadLine();
-                }
 
                 // בדיקה אם שם המשתמש תקין
                 while (!IsValidUserName(userName))
                 {
-                    Console.WriteLine("enter valid userName:");
+                    WriteError("Invalid username! Must be at least 4 chars.");
+                    WritePrompt("enter valid userName:");
                     userName = Console.ReadLine();
                 }
+
+                // בקשה מהמשתמש להזין סיסמה
+                WritePrompt("Enter Password");
+                password = ReadPassword();
+
+                // בדיקה אם הסיסמה תקינה
+                while (!IsValidPassword(password))
+                {
+                    WriteError("Invalid password! Must be 6+ chars and contain '@'.");
+                    WritePrompt("Enter new Password");
+                    password = Console.ReadLine();
+                }
+
+                
 
                 // ניסיון לרשום את המשתמש החדש בבסיס הנתונים
                 success = GameDB.RegisterUser(new User(name, userName, password));
@@ -67,12 +73,12 @@ namespace GameConsoleBase.Pages
                 // אם ההרשמה הצליחה
                 if (success)
                 {
-                    Console.WriteLine("Registration Successful!");
+                    WriteSuccess("Registration Successful!");
                 }
                 // אם ההרשמה נכשלה (למשל, שם המשתמש כבר קיים)
                 else
                 {
-                    Console.WriteLine("Registration Failed! UserName already exists.");
+                    WriteError("Registration Failed! UserName already exists.");
                 }
             }
 
@@ -94,7 +100,9 @@ namespace GameConsoleBase.Pages
         }
 
         // שיטה שבודקת אם הסיסמה תקינה
-        private bool IsValidPassword(string? password)
+
+        //החלפנו לpublic static כדי שנוכל לגשת ממסך שינוי סיסמה כדי לבדוק אם היא חוקית
+        public static bool IsValidPassword(string? password)
         {
             // סיסמה חייבת להיות לפחות 6 תווים, להכיל את הסימן '@', ואינה יכולה להיות ריקה
             if (password == null || password.Length < 6 || password.Contains("@") || string.IsNullOrEmpty(password))

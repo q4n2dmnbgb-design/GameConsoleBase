@@ -15,7 +15,6 @@ namespace GameConsoleBase.Pages
 			AddMenuItem("Fluffy Game", new GameScreen(new FluffyBirdGame()));
 			AddMenuItem("PacMan Game", new GameScreen(new PacManGame()));
 			AddMenuItem("Tetris Game", new GameScreen(new TetrisGame()));
-
 		}
 
 

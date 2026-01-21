@@ -1,4 +1,6 @@
 
+using GameConsoleBase.App;
+using GameConsoleBase.DB;
 using GameConsoleBase.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,12 @@ public class FluffyBirdGame:IGamePlay
 {
 	public int Score { get; set; }
 	public string Name { get; set; } = "Fluffy Bird";
+
+	//הוספנו
+	void SendGameDetails(GameDetails game)
+    {
+        GameApp.LoggedUser.AddGame(game);
+    }
 
 	public void Play()
 	{
@@ -94,7 +102,10 @@ public class FluffyBirdGame:IGamePlay
 				{
 					Console.SetCursorPosition(0, Height - 1);
 					Console.Write("Game Over. Score: " + Frame + ".");
+					SendGameDetails(new GameDetails(Name,Frame));//הוספנו שמירה של שם המשחק ותוצאה
+
 					Console.Write(" Play Again [enter], or quit [escape]?");
+
 					Score = Frame;
 				GetPlayAgainInput:
 					ConsoleKey key = Console.ReadKey(true).Key;

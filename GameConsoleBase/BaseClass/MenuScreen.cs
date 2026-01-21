@@ -30,8 +30,7 @@ namespace GameConsoleBase.BaseClass
         // שיטה שמציגה את התפריט על המסך
         public override void Show()
         {
-            // מציג את הכותרת של המסך (מוגדר במחלקת Screen)
-            base.Show();
+            
 
             // משתנה שמאפשר לצאת מהלולאה כאשר המשתמש בוחר באפשרות "יציאה"
             bool exit = false;
@@ -39,20 +38,45 @@ namespace GameConsoleBase.BaseClass
             // לולאה שממשיכה עד שהמשתמש בוחר לצאת
             while (!exit)
             {
+                // 1. ניקוי מסך והצגת לוגו (כמו בכל המסכים האחרים)
+                Console.Clear();
+                PrintHeader();
+
+                // הוראה יפה למשתמש
+                WriteInfo("Please select an option from the menu:");
+                Console.WriteLine();
+            
                 int index = 1; // מונה עבור מספרי האפשרויות בתפריט
                 int choose = 0; // משתנה לשמירת הבחירה של המשתמש
 
                 // הדפסת רשימת האפשרויות בתפריט
                 foreach (var item in menuItems.Keys)
                 {
-                    Console.WriteLine($"{index}-{item}"); // מציג את מספר האפשרות ואת שמה
+                    // עיצוב שורה: המספר בציאן, הטקסט בלבן
+                    Console.Write(" ║ ");
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write($"[{index}]");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($" {item,-25}║"); // ה-25 דואג ליישור הטקסט
                     index++;
                 }
 
-                // הוספת אפשרות יציאה לתפריט
-                Console.WriteLine($"{index}-Exit");
-                Console.Write("Choose an option: "); // בקשה מהמשתמש לבחור אפשרות
+                // הדפסת כפתור היציאה באותו סגנון
+                Console.Write(" ║ ");
+                Console.ForegroundColor = ConsoleColor.Red; // יציאה באדום
+                Console.Write($"[{index}]");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine($" {"Back / Exit",-25}║");
 
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine(" ╚════════════════════════════════════╝"); // מסגרת תחתונה
+                Console.ResetColor();
+                Console.WriteLine();
+
+                // --- סוף הדפסת התפריט ---
+
+                // שימוש ב-WritePrompt שלך במקום סתם Write
+                WritePrompt("Choose option number");
                 // בדיקה אם המשתמש הזין מספר תקין
                 if (int.TryParse(Console.ReadLine(), out choose))
                 {

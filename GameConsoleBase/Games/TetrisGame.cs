@@ -1,4 +1,6 @@
-﻿using GameConsoleBase.Interfaces;
+﻿using GameConsoleBase.App;
+using GameConsoleBase.DB;
+using GameConsoleBase.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,12 @@ namespace GameConsoleBase.Games
 		{
 			get; set;
 		}
+
+		//הוספנו
+	void SendGameDetails(GameDetails game)
+    {
+        GameApp.LoggedUser.AddGame(game);
+    }
 		// Classic Tetris settings
 		private const int BoardWidth = 10;
 		private const int BoardHeight = 20;
@@ -96,6 +104,8 @@ namespace GameConsoleBase.Games
 					if (!CanMove(currentShape, currentX, currentY))
 					{
 						ShowEndMessage();
+					SendGameDetails(new GameDetails(Name,Score));//הוספנו שמירה של שם המשחק ותוצאה
+
 						return;
 					}
 				}
